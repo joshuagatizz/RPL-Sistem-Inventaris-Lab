@@ -4,3 +4,4 @@ PROGRESS TAMPILAN
 
 Tampilan Login (Butrahandisya): Initial implementation sudah dibuat, tinggal digunakan nantinya pada framework frontend yang akan digunakan.
 Tampilan History (Wahid Firgiyanto) : implementation halaman history
+Tampilan Tambah/Edit (Joshua Erlangga Sakti) : Implementasi sementara sudah dibuat
