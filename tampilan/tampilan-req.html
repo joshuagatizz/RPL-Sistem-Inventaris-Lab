@@ -1,12 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <style>
+        .profile{
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+    </style>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-black">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"> <img src="https://picsum.photos/30/30" class="profile">Pengguna </a>
+            <form class="d-flex">
+                <a class="navbar-brand font-weight-bold" href="#"> <img src="https://cdn.discordapp.com/attachments/750943064415010849/957151172488216616/unknown.png" width="30" height="30"> Log out </a>
+            </form>
+        </div>
+      </nav>
+    <div class="container vh-100 vw-100">
+        <div class="row">
+            <div class="col mx-auto">
+                <div class="container d-flex justify-content-center align-items-center">
+                    <img src="https://cdn.discordapp.com/attachments/752204977325473802/957157401365184552/unknown.png" alt="" width="500px">
+                </div>
+            </div>
+            <div class="col">
+                <div style="margin-top: 50px;">
+                    <h2>Logitech C920 HD Pro Webcam</h2>
+                    <form class="d-flex">
+                        <a class="navbar-brand font-weight-bold" href="#">Kunjungi Website Logitech</a>
+                    </form>
+
+                    <p class="mt-4">
+                        Max resolution: <span class="text-danger">1080p/30fps</span><br>
+                        Focus type: <span class="text-danger">Autofocus</span><br>
+                        Lens type: <span class="text-danger">Glass</span><br>
+                        Built-in mic: <span class="text-danger">Stereo</span><br>
+                        Diagonal field of view (dFoV): <span class="text-danger">78</span><br>
+                        Tripod-ready universal mounting clip fits laptops, LCD or monitors
+                    </p>
+                    <hr style="width: 460px; height: 5px;">
+                </div>
+
+                <form style="width: 460px">
+                    <div class="mb-3">
+                      <label for="alasan" class="form-label">Alasan meminjam</label>
+                      <input type="text" class="form-control" id="alasan">
+                    </div>
+                    <div class="mb-3">
+                      <label for="durasi" class="form-label">Durasi meminjam (<span class="text-danger">ex: 05-05-2020 hingga 21-05-2020</span>)</label>
+                      <input type="text" class="form-control" id="durasi" style="height: 100px;">
+                    </div>
+                    <button type="submit" class="btn btn-danger text-white;" style="width: 460px;">Submit</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  </body>
 </html>
