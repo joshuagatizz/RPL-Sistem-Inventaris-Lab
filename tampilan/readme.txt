@@ -6,3 +6,4 @@ Tampilan Login (Butrahandisya): Initial implementation sudah dibuat, tinggal dig
 Tampilan History (Wahid Firgiyanto) : implementation halaman history
 Tampilan History (Kevin Usmayadhy Wijaya) : implementation halaman search
 Tampilan Tambah/Edit (Joshua Erlangga Sakti) : Implementasi sementara sudah dibuat
+Tampilan Request Pinjam (Ikhlasul Arifin) : Implementasi halaman sementara Request Pinjam
