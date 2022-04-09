@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/RPL-Sistem-Inventaris-Lab.iml" filepath="$PROJECT_DIR$/.idea/RPL-Sistem-Inventaris-Lab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BE/SistemInventarisLab.iml" filepath="$PROJECT_DIR$/BE/SistemInventarisLab.iml" />
+    </modules>
+  </component>
+</project>
