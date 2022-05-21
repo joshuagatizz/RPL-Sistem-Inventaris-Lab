@@ -23,6 +23,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * fungsi untuk mendapatkan List semua User dari DB.
+     * fungsi ini akan menggunakan userRepository untuk melakukan query ke DB
+     * dan mengembalikan hasilnya.
+     *
+     * @return List<User>, yaitu List dari semua user
+     */
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
