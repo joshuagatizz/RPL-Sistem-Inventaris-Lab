@@ -29,6 +29,14 @@ public class BarangServiceImpl implements BarangService {
         return barangRepository.findAll();
     }
 
+    /**
+     * fungsi untuk mendapatkan List Barang berdasar Id Peminjam dari DB.
+     * fungsi ini menerima parameter id dari user dan kemudian akan mengakses DB
+     * menggunakan barangRepository untuk melakukan query dan mengembalikan hasilnya.
+     *
+     * @param id Id dari user
+     * @return List<Barang>, yaitu List barang berdasarkan Id Peminjam
+     */
     @Override
     public List<Barang> getBarangByUserId(String id) {
         return barangRepository.findBarangsByIdPeminjam(id);

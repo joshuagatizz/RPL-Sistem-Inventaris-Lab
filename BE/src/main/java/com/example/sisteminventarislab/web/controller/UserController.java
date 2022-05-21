@@ -27,6 +27,13 @@ public class UserController {
         return userService.createUser(request);
     }
 
+    /**
+     * fungsi untuk mendapatkan list dari semua User.
+     * fungsi ini akan menggunakan method getAllUser dari userService
+     * dan mengembalikan hasilnya.
+     *
+     * @return List<User>, yaitu List dari semua User
+     */
     @ApiOperation("get all Users")
     @GetMapping
     public List<User> getAllUsers() {

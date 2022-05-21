@@ -21,6 +21,15 @@ public class LaporanController {
     @Autowired
     BarangService barangService;
 
+    /**
+     * fungsi untuk mendapatkan List Barang berdasarkan suatu id User.
+     * fungsi ini menerima 1 parameter yaitu String id dari user.
+     * fungsi ini akan menggunakan method getBarangByUserId dari
+     * barangService dan mengembalikan hasilnya.
+     *
+     * @param id Id dari user
+     * @return List<Barang>, yaitu List Barang berdasarkan Id User
+     */
     @ApiOperation("get Barang by User Id")
     @GetMapping(path = "/{id}")
     public List<Barang> getLaporanByUserId(@PathVariable String id) {
