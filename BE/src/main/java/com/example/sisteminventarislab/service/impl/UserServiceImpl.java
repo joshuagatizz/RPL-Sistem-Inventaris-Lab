@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Method deleteUser pada class controller UserController ini menerima id
+     * dari data user yang akan dihapus
+     *
+     * Method ini menggunakan repository UserRepository untuk menghapus user
+     * dengan input parameter id user
+     *
+     * @param id (id dari user yang akan dihapus)
+     * @return Boolean (true apabila data user berhasil dihapus, false apabila data user gagal dihapus)
+     */
     @Override
     public boolean deleteUser(String id) {
         userRepository.deleteById(id);

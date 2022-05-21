@@ -41,6 +41,17 @@ public class UserController {
         return userService.updateUser(id, request);
     }
 
+    /**
+     * Method untuk deleteUser pada class controller UserController yang menerima id
+     * dari data user yang ingin dihapus
+     *
+     * Method updateUser pada controller ini akan memanfaatkan implementasi dari
+     * method deleteUser pada class interface service UserService, yang mana diimplementasi pada class
+     * UserServiceImpl
+     *
+     * @param id (id dari user)
+     * @return Boolean (true apabila data user berhasil dihapus, false apabila data user gagal dihapus)
+     */
     @ApiOperation("delete User by id")
     @DeleteMapping(path = "/{id}")
     public boolean deleteUser(@PathVariable String id) {
