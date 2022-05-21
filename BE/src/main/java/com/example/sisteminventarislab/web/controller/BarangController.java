@@ -2,11 +2,14 @@ package com.example.sisteminventarislab.web.controller;
 
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.service.BarangService;
-import com.example.sisteminventarislab.web.model.CreateUpdateBarangRequest;
+import com.example.sisteminventarislab.web.model.CreateBarangRequest;
+import com.example.sisteminventarislab.web.model.UpdateBarangRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +26,9 @@ public class BarangController {
 
     @ApiOperation("create new Barang")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Barang createBarang(@RequestBody CreateUpdateBarangRequest request) {
-        return barangService.createBarang(request);
+    public ResponseEntity<String> createBarang(@RequestBody CreateBarangRequest request) {
+        Barang barang = barangService.createBarang(request);
+        return new ResponseEntity<>("Barang berhasil ditambah!", HttpStatus.OK);
     }
 
     @ApiOperation("get all Barang")
@@ -37,7 +41,7 @@ public class BarangController {
     @PutMapping(
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Barang updateBarang(@PathVariable String id, @RequestBody CreateUpdateBarangRequest request) {
+    public Barang updateBarang(@PathVariable String id, @RequestBody UpdateBarangRequest request) {
         return barangService.updateBarang(id, request);
     }
 

@@ -15,8 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Barang {
     @Id
     String id;
+    String idPeminjam;
     String urlFoto;
     String nama;
     String deskripsi;
-    int stok;
 }

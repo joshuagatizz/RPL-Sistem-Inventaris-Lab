@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUpdateBarangRequest {
+public class UpdateBarangRequest {
     String urlFoto;
     String nama;
+    String idPeminjam;
     String deskripsi;
-    int stok;
 }
