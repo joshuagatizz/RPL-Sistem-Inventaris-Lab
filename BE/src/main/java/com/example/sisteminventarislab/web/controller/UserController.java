@@ -21,6 +21,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+     * method ini memanfaatkan method create new user pada class controller UserController,
+     * digunakan untuk membuat user baru dengan menerima request berupa
+     * user baru yang akan dibuat.
+     *
+     *
+     *
+     * @param request
+     * @return
+     */
     @ApiOperation("create new User")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody CreateUpdateUserRequest request) {
@@ -40,6 +50,18 @@ public class UserController {
         return userService.getAllUser();
     }
 
+    /**
+     * method update user by id pada class controller UserController ini
+     * digunakan untuk mengupdate user.
+     *
+     * method updateUser pada controller ini akan memanfaatkan
+     * implementasi dari method update user by id.
+     *
+     *
+     * @param id
+     * @param request
+     * @return
+     */
     @ApiOperation("update User by id")
     @PutMapping(
             path = "/{id}",
