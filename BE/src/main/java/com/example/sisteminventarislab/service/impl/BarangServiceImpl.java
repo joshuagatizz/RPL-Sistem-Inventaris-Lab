@@ -17,6 +17,18 @@ public class BarangServiceImpl implements BarangService {
     @Autowired
     BarangRepository barangRepository;
 
+    /**
+     * Method createBarang merupakan method untuk membuat barang baru
+     * dengan menerima request yang berisi detail barang yang akan dibuat
+     *
+     * Method ini memanfaatkan method copyProperties dari BeanUtils, di mana
+     * method tersebut mengkopi semua nilai pada field yang ada pada kedua objek,
+     * lalu memasukkan nilai kopian tersebut pada objek parameter ke-2 dari method
+     * copyProperties
+     *
+     * @param request, detail barang yang akan dibuat
+     * @return barang telah disimpan
+     */
     @Override
     public Barang createBarang(CreateBarangRequest request) {
         Barang barang = Barang.builder().build();

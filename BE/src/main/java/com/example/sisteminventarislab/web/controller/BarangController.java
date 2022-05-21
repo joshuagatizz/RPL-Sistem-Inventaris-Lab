@@ -24,6 +24,15 @@ public class BarangController {
     @Autowired
     BarangService barangService;
 
+    /**
+     * Method createBarang merupakan method untuk membuat barang baru
+     * dengan menerima request berupa detail barang baru yang akan dibuat.
+     *
+     * Method ini memanfaatkan method createBarang dari class interface BarangService
+     *
+     * @param request, detail barang yang akan dibuat
+     * @return response barang berhasil ditambah
+     */
     @ApiOperation("create new Barang")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createBarang(@RequestBody CreateBarangRequest request) {
@@ -31,6 +40,14 @@ public class BarangController {
         return new ResponseEntity<>("Barang berhasil ditambah!", HttpStatus.OK);
     }
 
+    /**
+     * Method getAllBarang merupakan method untuk mendapatkan list yang
+     * berisi semua barang. Method ini tidak memiliki parameter.
+     *
+     * Method ini memanfaatkan method getAllBarang dari class interface BarangService
+     *
+     * @return List<Barang>
+     */
     @ApiOperation("get all Barang")
     @GetMapping
     public List<Barang> getAllBarang() {
