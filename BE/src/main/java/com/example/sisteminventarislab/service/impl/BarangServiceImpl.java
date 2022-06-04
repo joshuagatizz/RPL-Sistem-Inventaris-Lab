@@ -3,8 +3,9 @@ package com.example.sisteminventarislab.service.impl;
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.repository.BarangRepository;
 import com.example.sisteminventarislab.service.BarangService;
-import com.example.sisteminventarislab.web.model.CreateBarangRequest;
-import com.example.sisteminventarislab.web.model.UpdateBarangRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateBarangRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateBarangRequest;
+import com.example.sisteminventarislab.web.model.Response.CreateBarangResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,15 @@ public class BarangServiceImpl implements BarangService {
      * @return barang telah disimpan
      */
     @Override
-    public Barang createBarang(CreateBarangRequest request) {
-        Barang barang = Barang.builder().build();
+    public CreateBarangResponse createBarang(CreateBarangRequest request) {
+        Barang barang = new Barang();
         BeanUtils.copyProperties(request, barang);
-        return barangRepository.save(barang);
+        barang = barangRepository.save(barang);
+        return CreateBarangResponse
+            .builder()
+            .status("Sukses")
+            .barang(barang)
+            .build();
     }
 
     @Override

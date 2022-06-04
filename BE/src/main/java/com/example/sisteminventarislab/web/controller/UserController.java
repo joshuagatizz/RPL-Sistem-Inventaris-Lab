@@ -1,8 +1,10 @@
 package com.example.sisteminventarislab.web.controller;
 
+import com.example.sisteminventarislab.entity.Response;
 import com.example.sisteminventarislab.entity.User;
+import com.example.sisteminventarislab.entity.helper.ResponseHelper;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.CreateUpdateUserRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,8 @@ public class UserController {
      */
     @ApiOperation("create new User")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser(@RequestBody CreateUpdateUserRequest request) {
-        return userService.createUser(request);
+    public Response<User> createUser(@RequestBody CreateUpdateUserRequest request) {
+        return ResponseHelper.ok(userService.createUser(request));
     }
 
     /**
@@ -46,8 +48,8 @@ public class UserController {
      */
     @ApiOperation("get all Users")
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUser();
+    public Response<List<User>> getAllUsers() {
+        return ResponseHelper.ok(userService.getAllUser());
     }
 
     /**
@@ -66,8 +68,8 @@ public class UserController {
     @PutMapping(
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable String id, @RequestBody CreateUpdateUserRequest request) {
-        return userService.updateUser(id, request);
+    public Response<User> updateUser(@PathVariable String id, @RequestBody CreateUpdateUserRequest request) {
+        return ResponseHelper.ok(userService.updateUser(id, request));
     }
 
     /**
@@ -83,7 +85,7 @@ public class UserController {
      */
     @ApiOperation("delete User by id")
     @DeleteMapping(path = "/{id}")
-    public boolean deleteUser(@PathVariable String id) {
-        return userService.deleteUser(id);
+    public Response<Boolean> deleteUser(@PathVariable String id) {
+        return ResponseHelper.ok(userService.deleteUser(id));
     }
 }

@@ -3,7 +3,7 @@ package com.example.sisteminventarislab.service.impl;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.repository.UserRepository;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.CreateUpdateUserRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

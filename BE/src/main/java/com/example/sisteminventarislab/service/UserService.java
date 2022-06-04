@@ -1,7 +1,7 @@
 package com.example.sisteminventarislab.service;
 
 import com.example.sisteminventarislab.entity.User;
-import com.example.sisteminventarislab.web.model.CreateUpdateUserRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
 
 import java.util.List;
 

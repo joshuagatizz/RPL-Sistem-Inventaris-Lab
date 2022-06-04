@@ -1,17 +1,21 @@
 package com.example.sisteminventarislab.web.controller;
 
 import com.example.sisteminventarislab.entity.Barang;
+import com.example.sisteminventarislab.entity.Response;
+import com.example.sisteminventarislab.entity.helper.ResponseHelper;
 import com.example.sisteminventarislab.service.BarangService;
-import com.example.sisteminventarislab.web.model.CreateBarangRequest;
-import com.example.sisteminventarislab.web.model.UpdateBarangRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateBarangRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateBarangRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api
@@ -35,9 +39,8 @@ public class BarangController {
      */
     @ApiOperation("create new Barang")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createBarang(@RequestBody CreateBarangRequest request) {
-        Barang barang = barangService.createBarang(request);
-        return new ResponseEntity<>("Barang berhasil ditambah!", HttpStatus.OK);
+    public Response<Barang> createBarang(@RequestBody @Valid CreateBarangRequest request) {
+        return ResponseHelper.ok(barangService.createBarang(request));
     }
 
     /**
@@ -50,8 +53,8 @@ public class BarangController {
      */
     @ApiOperation("get all Barang")
     @GetMapping
-    public List<Barang> getAllBarang() {
-        return barangService.getAllBarang();
+    public Response<List<Barang>> getAllBarang() {
+        return ResponseHelper.ok(barangService.getAllBarang());
     }
 
     /**
@@ -72,8 +75,8 @@ public class BarangController {
     @PutMapping(
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Barang updateBarang(@PathVariable String id, @RequestBody UpdateBarangRequest request) {
-        return barangService.updateBarang(id, request);
+    public Response<Barang> updateBarang(@PathVariable String id, @RequestBody UpdateBarangRequest request) {
+        return ResponseHelper.ok(barangService.updateBarang(id, request));
     }
 
     /**
@@ -90,7 +93,7 @@ public class BarangController {
      */
     @ApiOperation("delete Barang by id")
     @DeleteMapping(path = "/{id}")
-    public boolean deleteBarang(@PathVariable String id) {
-        return barangService.deleteBarang(id);
+    public Response<Boolean> deleteBarang(@PathVariable String id) {
+        return ResponseHelper.ok(barangService.deleteBarang(id));
     }
 }

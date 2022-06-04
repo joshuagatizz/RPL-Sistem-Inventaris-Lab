@@ -1,6 +1,8 @@
 package com.example.sisteminventarislab.web.controller;
 
 import com.example.sisteminventarislab.entity.Barang;
+import com.example.sisteminventarislab.entity.Response;
+import com.example.sisteminventarislab.entity.helper.ResponseHelper;
 import com.example.sisteminventarislab.service.BarangService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +34,7 @@ public class LaporanController {
      */
     @ApiOperation("get Barang by User Id")
     @GetMapping(path = "/{id}")
-    public List<Barang> getLaporanByUserId(@PathVariable String id) {
-        return barangService.getBarangByUserId(id);
+    public Response<List<Barang>> getLaporanByUserId(@PathVariable String id) {
+        return ResponseHelper.ok(barangService.getBarangByUserId(id));
     }
 }

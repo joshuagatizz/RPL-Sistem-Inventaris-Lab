@@ -1,4 +1,4 @@
-package com.example.sisteminventarislab.web.model;
+package com.example.sisteminventarislab.web.model.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUpdateUserRequest {
-    String email;
+public class UpdateBarangRequest {
+    String urlFoto;
     String nama;
-    String password;
-    String tipeUser;
+    String idPeminjam;
+    String deskripsi;
 }
