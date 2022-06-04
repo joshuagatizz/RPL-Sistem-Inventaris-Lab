@@ -1,6 +1,8 @@
 package com.example.sisteminventarislab.service.impl;
 
 import com.example.sisteminventarislab.entity.Barang;
+import com.example.sisteminventarislab.exception.CustomException;
+import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.BarangRepository;
 import com.example.sisteminventarislab.service.BarangService;
 import com.example.sisteminventarislab.web.model.Request.CreateBarangRequest;
@@ -9,6 +11,7 @@ import com.example.sisteminventarislab.web.model.Response.CreateBarangResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -93,6 +96,9 @@ public class BarangServiceImpl implements BarangService {
      */
     @Override
     public boolean deleteBarang(String id) {
+        if (ObjectUtils.isEmpty(barangRepository.findById(id))) {
+            throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
+        }
         barangRepository.deleteById(id);
         return true;
     }
