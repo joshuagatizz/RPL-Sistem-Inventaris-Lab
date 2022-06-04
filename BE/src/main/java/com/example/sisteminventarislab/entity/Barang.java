@@ -4,18 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "barang")
 public class Barang {
-  @Id
-  private String id;
-  private String nama;
-  private String deskripsi;
-  private int stock;
-  private String urlGambar;
+    @Id
+    String id;
+    String idPeminjam;
+    String urlFoto;
+    String nama;
+    String deskripsi;
 }

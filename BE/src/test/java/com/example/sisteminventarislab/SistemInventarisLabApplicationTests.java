@@ -8,7 +8,6 @@ class SistemInventarisLabApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println("Hello World!");
     }
 
 }
