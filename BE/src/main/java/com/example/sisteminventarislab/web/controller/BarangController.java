@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Api
@@ -75,7 +76,8 @@ public class BarangController {
     @PutMapping(
             path = "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response<Barang> updateBarang(@PathVariable String id, @RequestBody UpdateBarangRequest request) {
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, consumes = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
+    public Response<Barang> updateBarang(@PathVariable String id, @RequestBody @Valid UpdateBarangRequest request) {
         return ResponseHelper.ok(barangService.updateBarang(id, request));
     }
 
