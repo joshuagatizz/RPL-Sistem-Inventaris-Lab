@@ -1,12 +1,15 @@
 package com.example.sisteminventarislab.service.impl;
 
 import com.example.sisteminventarislab.entity.User;
+import com.example.sisteminventarislab.exception.CustomException;
+import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
 import com.example.sisteminventarislab.service.UserService;
 import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -54,6 +57,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deleteUser(String id) {
+        if (ObjectUtils.isEmpty(userRepository.findById(id))) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
         userRepository.deleteById(id);
         return true;
     }

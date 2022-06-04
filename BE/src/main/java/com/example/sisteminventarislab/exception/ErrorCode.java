@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum ErrorCode {
+  USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User tidak ditemukan"),
   BARANG_NOT_FOUND(HttpStatus.NOT_FOUND, "Barang tidak ditemukan");
   HttpStatus httpStatus;
   String message;

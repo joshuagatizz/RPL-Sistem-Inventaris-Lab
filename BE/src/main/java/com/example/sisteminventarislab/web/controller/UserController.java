@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api
@@ -35,7 +36,7 @@ public class UserController {
      */
     @ApiOperation("create new User")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response<User> createUser(@RequestBody CreateUpdateUserRequest request) {
+    public Response<User> createUser(@RequestBody @Valid CreateUpdateUserRequest request) {
         return ResponseHelper.ok(userService.createUser(request));
     }
 
@@ -65,10 +66,8 @@ public class UserController {
      * @return
      */
     @ApiOperation("update User by id")
-    @PutMapping(
-            path = "/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Response<User> updateUser(@PathVariable String id, @RequestBody CreateUpdateUserRequest request) {
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response<User> updateUser(@PathVariable String id, @RequestBody @Valid CreateUpdateUserRequest request) {
         return ResponseHelper.ok(userService.updateUser(id, request));
     }
 
