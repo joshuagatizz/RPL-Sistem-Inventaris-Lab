@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "barang")
 public class Barang {
-    @Id
-    String id;
-    String idPeminjam;
-    String urlFoto;
-    String nama;
-    String deskripsi;
+  @Id
+  String id;
+  String idPeminjam;
+  String urlFoto;
+  String nama;
+  String deskripsi;
 }

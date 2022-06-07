@@ -20,21 +20,21 @@ import java.util.List;
 @RequestMapping(path = "/api/laporan", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LaporanController {
 
-    @Autowired
-    BarangService barangService;
+  @Autowired
+  BarangService barangService;
 
-    /**
-     * fungsi untuk mendapatkan List Barang berdasarkan suatu id User.
-     * fungsi ini menerima 1 parameter yaitu String id dari user.
-     * fungsi ini akan menggunakan method getBarangByUserId dari
-     * barangService dan mengembalikan hasilnya.
-     *
-     * @param id Id dari user
-     * @return List<Barang>, yaitu List Barang berdasarkan Id User
-     */
-    @ApiOperation("get Barang by User Id")
-    @GetMapping(path = "/{id}")
-    public Response<List<Barang>> getLaporanByUserId(@PathVariable String id) {
-        return ResponseHelper.ok(barangService.getBarangByUserId(id));
-    }
+  /**
+   * fungsi untuk mendapatkan List Barang berdasarkan suatu id User.
+   * fungsi ini menerima 1 parameter yaitu String id dari user.
+   * fungsi ini akan menggunakan method getBarangByUserId dari
+   * barangService dan mengembalikan hasilnya.
+   *
+   * @param id Id dari user
+   * @return List<Barang>, yaitu List Barang berdasarkan Id User
+   */
+  @ApiOperation("get Barang by User Id")
+  @GetMapping(path = "/{id}")
+  public Response<List<Barang>> getLaporanByUserId(@PathVariable String id) {
+    return ResponseHelper.ok(barangService.getBarangByUserId(id));
+  }
 }

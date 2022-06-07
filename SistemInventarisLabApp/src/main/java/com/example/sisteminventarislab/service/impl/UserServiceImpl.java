@@ -16,51 +16,51 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
+  @Autowired
+  UserRepository userRepository;
 
-    @Override
-    public User createUser(CreateUpdateUserRequest request) {
-        User user = User.builder().build();
-        BeanUtils.copyProperties(request, user);
-        return userRepository.save(user);
-    }
+  @Override
+  public User createUser(CreateUpdateUserRequest request) {
+    User user = User.builder().build();
+    BeanUtils.copyProperties(request, user);
+    return userRepository.save(user);
+  }
 
-    /**
-     * fungsi untuk mendapatkan List semua User dari DB.
-     * fungsi ini akan menggunakan userRepository untuk melakukan query ke DB
-     * dan mengembalikan hasilnya.
-     *
-     * @return List<User>, yaitu List dari semua user
-     */
-    @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
-    }
+  /**
+   * fungsi untuk mendapatkan List semua User dari DB.
+   * fungsi ini akan menggunakan userRepository untuk melakukan query ke DB
+   * dan mengembalikan hasilnya.
+   *
+   * @return List<User>, yaitu List dari semua user
+   */
+  @Override
+  public List<User> getAllUser() {
+    return userRepository.findAll();
+  }
 
-    @Override
-    public User updateUser(String id, CreateUpdateUserRequest request) {
-        User user = userRepository.findById(id).get();
-        BeanUtils.copyProperties(request, user);
-        return userRepository.save(user);
-    }
+  @Override
+  public User updateUser(String id, CreateUpdateUserRequest request) {
+    User user = userRepository.findById(id).get();
+    BeanUtils.copyProperties(request, user);
+    return userRepository.save(user);
+  }
 
-    /**
-     * Method deleteUser pada class controller UserController ini menerima id
-     * dari data user yang akan dihapus
-     *
-     * Method ini menggunakan repository UserRepository untuk menghapus user
-     * dengan input parameter id user
-     *
-     * @param id (id dari user yang akan dihapus)
-     * @return Boolean (true apabila data user berhasil dihapus, false apabila data user gagal dihapus)
-     */
-    @Override
-    public boolean deleteUser(String id) {
-        if (ObjectUtils.isEmpty(userRepository.findById(id))) {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
-        userRepository.deleteById(id);
-        return true;
+  /**
+   * Method deleteUser pada class controller UserController ini menerima id
+   * dari data user yang akan dihapus
+   *
+   * Method ini menggunakan repository UserRepository untuk menghapus user
+   * dengan input parameter id user
+   *
+   * @param id (id dari user yang akan dihapus)
+   * @return Boolean (true apabila data user berhasil dihapus, false apabila data user gagal dihapus)
+   */
+  @Override
+  public boolean deleteUser(String id) {
+    if (ObjectUtils.isEmpty(userRepository.findById(id))) {
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
     }
+    userRepository.deleteById(id);
+    return true;
+  }
 }
