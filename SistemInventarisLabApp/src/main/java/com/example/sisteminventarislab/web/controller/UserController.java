@@ -59,7 +59,7 @@ public class UserController {
   @ApiOperation("get Users paged (size 4)")
   @GetMapping
   public Response<List<User>> getUsersPaged(@Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
-      message = "Page tidak boleh bernilai < 1!") int page) {
+      message = "Page tidak boleh bernilai < 1!") Integer page) {
     return ResponseHelper.ok(userService.getUsersPaged(page));
   }
 

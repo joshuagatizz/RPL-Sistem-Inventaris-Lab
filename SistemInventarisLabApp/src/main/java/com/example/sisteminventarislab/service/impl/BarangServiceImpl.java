@@ -11,7 +11,6 @@ import com.example.sisteminventarislab.web.model.Request.UpdateBarangWebRequest;
 import com.example.sisteminventarislab.web.model.Response.CreateBarangWebResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -55,7 +54,10 @@ public class BarangServiceImpl implements BarangService {
 
   @Override
   public List<Barang> getAllBarangPaged(int page) {
-    return barangRepositoryCustom.getBarangPaged(page);
+    List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page);
+    if (ObjectUtils.isEmpty(listBarang))
+      throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
+    return listBarang;
   }
 
   /**

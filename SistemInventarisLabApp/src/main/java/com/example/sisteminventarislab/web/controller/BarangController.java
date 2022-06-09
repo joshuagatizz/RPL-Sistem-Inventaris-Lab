@@ -10,9 +10,16 @@ import com.example.sisteminventarislab.web.model.Response.CreateBarangWebRespons
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -57,8 +64,8 @@ public class BarangController {
 
   @ApiOperation("get list Barang (size 4)")
   @GetMapping
-  public Response<List<Barang>> getBarangListPaged(@Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
-      message = "Page tidak boleh bernilai < 1!") int page) {
+  public Response<List<Barang>> getBarangListPaged(@RequestParam @Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
+      message = "Page tidak boleh bernilai < 1!") Integer page) {
     return ResponseHelper.ok(barangService.getAllBarangPaged(page));
   }
 
