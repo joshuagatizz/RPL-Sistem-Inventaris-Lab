@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUpdateUserRequest {
+public class CreateUpdateUserWebRequest {
   @NotEmpty(message = "E-mail tidak boleh kosong")
   String email;
 

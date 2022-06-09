@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreateBarangResponse {
+public class CreateBarangWebResponse {
   String status;
   Barang barang;
 }
