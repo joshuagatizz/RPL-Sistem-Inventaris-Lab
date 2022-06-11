@@ -59,9 +59,7 @@ public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
   @Test
   public void getUsersPaged_success() throws Exception {
     mockMvc.perform(
-        get(url)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .param("page", String.valueOf(1)))
+        get(url).param("page", String.valueOf(1)))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.data", IsCollectionWithSize.hasSize(4)));
@@ -70,9 +68,7 @@ public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
 //  @Test
 //  public void getUsersPaged_failed_negativeInput() throws Exception {
 //    mockMvc.perform(
-//            get(url)
-//                .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                .param("page", String.valueOf(-1)))
+//            get(url).param("page", String.valueOf(-1)))
 //        .andExpect(status().isBadRequest())
 //        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 //  }
@@ -80,9 +76,7 @@ public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
 //  @Test
 //  public void getUsersPaged_failed_emptyInput() throws Exception {
 //    mockMvc.perform(
-//            get(url)
-//                .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                .param("page", " "))
+//            get(url).param("page", " "))
 //        .andExpect(status().isBadRequest())
 //        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
 //  }
@@ -90,9 +84,7 @@ public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
   @Test
   public void getUsersPaged_failed_inputExceedsPageLimit() throws Exception {
     mockMvc.perform(
-            get(url)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .param("page", String.valueOf(4)))
+            get(url).param("page", String.valueOf(4)))
         .andExpect(status().isBadRequest())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
