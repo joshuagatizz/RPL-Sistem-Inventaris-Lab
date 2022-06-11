@@ -4,8 +4,10 @@ import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.exception.CustomException;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
+import com.example.sisteminventarislab.repository.UserRepositoryCustom;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,15 @@ import org.springframework.util.ObjectUtils;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  @Autowired
-  UserRepository userRepository;
+
+  private final UserRepository userRepository;
+  private final UserRepositoryCustom userRepositoryCustom;
 
   @Override
-  public User createUser(CreateUpdateUserRequest request) {
+  public User createUser(CreateUpdateUserWebRequest request) {
     User user = User.builder().build();
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
@@ -39,7 +43,15 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User updateUser(String id, CreateUpdateUserRequest request) {
+  public List<User> getUsersPaged(int page) {
+    List<User> listUser = userRepositoryCustom.getUserPaged(page);
+    if (ObjectUtils.isEmpty(listUser))
+      throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
+    return listUser;
+  }
+
+  @Override
+  public User updateUser(String id, CreateUpdateUserWebRequest request) {
     User user = userRepository.findById(id).get();
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);

@@ -1,16 +1,17 @@
 package com.example.sisteminventarislab.service;
 
 import com.example.sisteminventarislab.entity.Barang;
-import com.example.sisteminventarislab.web.model.Request.CreateBarangRequest;
-import com.example.sisteminventarislab.web.model.Request.UpdateBarangRequest;
-import com.example.sisteminventarislab.web.model.Response.CreateBarangResponse;
+import com.example.sisteminventarislab.web.model.Request.CreateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Response.CreateBarangWebResponse;
 
 import java.util.List;
 
 public interface BarangService {
-  CreateBarangResponse createBarang(CreateBarangRequest request);
+  CreateBarangWebResponse createBarang(CreateBarangWebRequest request);
   List<Barang> getAllBarang();
+  List<Barang> getAllBarangPaged(int page);
   List<Barang> getBarangByUserId(String id);
-  Barang updateBarang(String id, UpdateBarangRequest request);
+  Barang updateBarang(String id, UpdateBarangWebRequest request);
   boolean deleteBarang(String id);
 }

@@ -4,22 +4,24 @@ import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.exception.CustomException;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.BarangRepository;
+import com.example.sisteminventarislab.repository.BarangRepositoryCustom;
 import com.example.sisteminventarislab.service.BarangService;
-import com.example.sisteminventarislab.web.model.Request.CreateBarangRequest;
-import com.example.sisteminventarislab.web.model.Request.UpdateBarangRequest;
-import com.example.sisteminventarislab.web.model.Response.CreateBarangResponse;
+import com.example.sisteminventarislab.web.model.Request.CreateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Response.CreateBarangWebResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BarangServiceImpl implements BarangService {
 
-  @Autowired
-  BarangRepository barangRepository;
+  private final BarangRepository barangRepository;
+  private final BarangRepositoryCustom barangRepositoryCustom;
 
   /**
    * Method createBarang merupakan method untuk membuat barang baru
@@ -34,11 +36,11 @@ public class BarangServiceImpl implements BarangService {
    * @return barang telah disimpan
    */
   @Override
-  public CreateBarangResponse createBarang(CreateBarangRequest request) {
+  public CreateBarangWebResponse createBarang(CreateBarangWebRequest request) {
     Barang barang = new Barang();
     BeanUtils.copyProperties(request, barang);
     barang = barangRepository.save(barang);
-    return CreateBarangResponse
+    return CreateBarangWebResponse
         .builder()
         .status("Sukses")
         .barang(barang)
@@ -48,6 +50,14 @@ public class BarangServiceImpl implements BarangService {
   @Override
   public List<Barang> getAllBarang() {
     return barangRepository.findAll();
+  }
+
+  @Override
+  public List<Barang> getAllBarangPaged(int page) {
+    List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page);
+    if (ObjectUtils.isEmpty(listBarang))
+      throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
+    return listBarang;
   }
 
   /**
@@ -78,7 +88,7 @@ public class BarangServiceImpl implements BarangService {
    * @return Barang, yaitu hasil dari perbaharuan barang yang dilakukan .
    */
   @Override
-  public Barang updateBarang(String id, UpdateBarangRequest request) {
+  public Barang updateBarang(String id, UpdateBarangWebRequest request) {
     Barang barang = barangRepository.findById(id).get();
     BeanUtils.copyProperties(request, barang);
     return barangRepository.save(barang);

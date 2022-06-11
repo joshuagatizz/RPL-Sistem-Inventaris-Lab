@@ -11,12 +11,11 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateBarangRequest {
+public class CreateBarangWebRequest {
   @NotEmpty(message = "URL foto tidak boleh kosong!")
   String urlFoto;
   @NotEmpty(message = "Nama barang tidak boleh kosong!")
   String nama;
-  String idPeminjam;
   @NotEmpty(message = "Deskripsi barang tidak boleh kosong!")
   String deskripsi;
 }
