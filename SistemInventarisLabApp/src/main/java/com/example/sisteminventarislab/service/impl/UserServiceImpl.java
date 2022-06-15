@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -73,11 +72,6 @@ public class UserServiceImpl implements UserService {
       throw new CustomException(ErrorCode.USER_NOT_FOUND);
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
-  }
-
-  private boolean nimIsTaken(User user) {
-    User result = userRepository.getUserByNimEquals(user.getNim());
-    return !ObjectUtils.isEmpty(user) && !Objects.equals(result.getNim(), user.getNim());
   }
 
   /**
