@@ -60,6 +60,14 @@ public class BarangServiceImpl implements BarangService {
     return listBarang;
   }
 
+  @Override
+  public Barang getBarangById(String id) {
+    Barang barang = barangRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(barang))
+      throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
+    return barang;
+  }
+
   /**
    * fungsi untuk mendapatkan List Barang berdasar Id Peminjam dari DB.
    * fungsi ini menerima parameter id dari user dan kemudian akan mengakses DB

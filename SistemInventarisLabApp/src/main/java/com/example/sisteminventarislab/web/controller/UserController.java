@@ -19,9 +19,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping(
-    path = "/api/user",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -54,6 +52,12 @@ public class UserController {
   @GetMapping("disabled-api")
   public Response<List<User>> getAllUsers() {
     return ResponseHelper.ok(userService.getAllUser());
+  }
+
+  @ApiOperation("get User by id")
+  @GetMapping("/{id}")
+  public Response<User> getUserById(@PathVariable String id) {
+    return ResponseHelper.ok(userService.getUserById(id));
   }
 
   @ApiOperation("get Users paged (size 4)")

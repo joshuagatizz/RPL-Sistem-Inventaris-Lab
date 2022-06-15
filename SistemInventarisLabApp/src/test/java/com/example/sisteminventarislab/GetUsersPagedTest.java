@@ -1,33 +1,19 @@
 package com.example.sisteminventarislab;
 
 import com.example.sisteminventarislab.entity.User;
-import com.example.sisteminventarislab.entity.helper.ResponseHelper;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
-import com.example.sisteminventarislab.web.controller.UserController;
-import org.assertj.core.api.Assert;
 import org.hamcrest.collection.IsCollectionWithSize;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
@@ -84,7 +70,7 @@ public class GetUsersPagedTest extends SistemInventarisLabApplicationTests {
   @Test
   public void getUsersPaged_failed_inputExceedsPageLimit() throws Exception {
     mockMvc.perform(
-            get(url).param("page", String.valueOf(4)))
+        get(url).param("page", String.valueOf(4)))
         .andExpect(status().isBadRequest())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))

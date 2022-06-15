@@ -11,6 +11,7 @@ public interface BarangService {
   CreateBarangWebResponse createBarang(CreateBarangWebRequest request);
   List<Barang> getAllBarang();
   List<Barang> getAllBarangPaged(int page);
+  Barang getBarangById(String id);
   List<Barang> getBarangByUserId(String id);
   Barang updateBarang(String id, UpdateBarangWebRequest request);
   boolean deleteBarang(String id);
