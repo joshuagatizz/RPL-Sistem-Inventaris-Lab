@@ -7,4 +7,4 @@ Nama anggota kelompok:
 - Kevin Usmayadhy Wijaya
 - Wahid Firgiyanto
 
-[Source code client server](https://github.com/joshuagatizz/RPL-Inventaris-Lab-UI)
+[Client server repository](https://github.com/joshuagatizz/RPL-Inventaris-Lab-UI)
