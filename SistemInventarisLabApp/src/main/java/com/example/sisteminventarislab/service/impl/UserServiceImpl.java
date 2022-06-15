@@ -6,14 +6,15 @@ import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
 import com.example.sisteminventarislab.repository.UserRepositoryCustom;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateUserWebRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +25,17 @@ public class UserServiceImpl implements UserService {
   private final UserRepositoryCustom userRepositoryCustom;
 
   @Override
-  public User createUser(CreateUpdateUserWebRequest request) {
+  public User createUser(CreateUserWebRequest request) {
+    if (nimIsTaken(request.getNim()))
+      throw new CustomException(ErrorCode.USER_NIM_ALREADY_EXISTS);
     User user = User.builder().build();
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
+  }
+
+  private boolean nimIsTaken(String nim) {
+    User user = userRepository.getUserByNimEquals(nim);
+    return !ObjectUtils.isEmpty(user);
   }
 
   /**
@@ -59,10 +67,17 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User updateUser(String id, CreateUpdateUserWebRequest request) {
-    User user = userRepository.findById(id).get();
+  public User updateUser(String id, UpdateUserWebRequest request) {
+    User user = userRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(user))
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
+  }
+
+  private boolean nimIsTaken(User user) {
+    User result = userRepository.getUserByNimEquals(user.getNim());
+    return !ObjectUtils.isEmpty(user) && !Objects.equals(result.getNim(), user.getNim());
   }
 
   /**

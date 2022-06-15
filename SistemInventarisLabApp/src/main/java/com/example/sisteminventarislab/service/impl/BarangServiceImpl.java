@@ -97,7 +97,9 @@ public class BarangServiceImpl implements BarangService {
    */
   @Override
   public Barang updateBarang(String id, UpdateBarangWebRequest request) {
-    Barang barang = barangRepository.findById(id).get();
+    Barang barang = barangRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(barang))
+      throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
     BeanUtils.copyProperties(request, barang);
     return barangRepository.save(barang);
   }

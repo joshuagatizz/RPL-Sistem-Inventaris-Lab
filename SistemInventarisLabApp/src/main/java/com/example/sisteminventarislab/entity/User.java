@@ -17,6 +17,7 @@ public class User {
   String id;
   String email;
   String nama;
+  String nim;
   String password;
   String tipeUser;
 }
