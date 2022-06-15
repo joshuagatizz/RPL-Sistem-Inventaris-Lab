@@ -19,9 +19,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping(
-    path = "/api/user",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -56,9 +54,15 @@ public class UserController {
     return ResponseHelper.ok(userService.getAllUser());
   }
 
+  @ApiOperation("get User by id")
+  @GetMapping("/{id}")
+  public Response<User> getUserById(@PathVariable String id) {
+    return ResponseHelper.ok(userService.getUserById(id));
+  }
+
   @ApiOperation("get Users paged (size 4)")
   @GetMapping
-  public Response<List<User>> getUsersPaged(@Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
+  public Response<List<User>> getUsersPaged(@RequestParam @Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
       message = "Page tidak boleh bernilai < 1!") Integer page) {
     return ResponseHelper.ok(userService.getUsersPaged(page));
   }

@@ -28,8 +28,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping(path = "/api/barang",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/barang", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class BarangController {
 
@@ -60,6 +59,12 @@ public class BarangController {
   @GetMapping("disabled-api")
   public Response<List<Barang>> getAllBarang() {
     return ResponseHelper.ok(barangService.getAllBarang());
+  }
+
+  @ApiOperation("get Barang by Id")
+  @GetMapping(path = "/{id}")
+  public Response<Barang> getBarangById(@PathVariable String id) {
+    return ResponseHelper.ok(barangService.getBarangById(id));
   }
 
   @ApiOperation("get list Barang (size 4)")

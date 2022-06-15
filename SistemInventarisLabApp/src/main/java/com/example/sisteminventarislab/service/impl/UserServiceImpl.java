@@ -51,6 +51,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public User getUserById(String id) {
+    User user = userRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(user))
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    return user;
+  }
+
+  @Override
   public User updateUser(String id, CreateUpdateUserWebRequest request) {
     User user = userRepository.findById(id).get();
     BeanUtils.copyProperties(request, user);

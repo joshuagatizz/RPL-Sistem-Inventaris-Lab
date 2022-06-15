@@ -9,6 +9,7 @@ public interface UserService {
   User createUser(CreateUpdateUserWebRequest request);
   List<User> getAllUser();
   List<User> getUsersPaged(int page);
+  User getUserById(String id);
   User updateUser(String id, CreateUpdateUserWebRequest request);
   boolean deleteUser(String id);
 }
