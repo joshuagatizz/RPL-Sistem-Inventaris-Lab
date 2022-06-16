@@ -6,3 +6,5 @@ Nama anggota kelompok:
 - Joshua Erlangga Sakti
 - Kevin Usmayadhy Wijaya
 - Wahid Firgiyanto
+
+[Client server repository](https://github.com/joshuagatizz/RPL-Inventaris-Lab-UI)

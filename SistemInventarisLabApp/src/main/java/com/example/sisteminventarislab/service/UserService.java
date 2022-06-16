@@ -1,13 +1,15 @@
 package com.example.sisteminventarislab.service;
 
 import com.example.sisteminventarislab.entity.User;
-import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
 
 import java.util.List;
 
 public interface UserService {
-  User createUser(CreateUpdateUserRequest request);
+  User createUser(CreateUpdateUserWebRequest request);
   List<User> getAllUser();
-  User updateUser(String id, CreateUpdateUserRequest request);
+  List<User> getUsersPaged(int page);
+  User getUserById(String id);
+  User updateUser(String id, CreateUpdateUserWebRequest request);
   boolean deleteUser(String id);
 }
