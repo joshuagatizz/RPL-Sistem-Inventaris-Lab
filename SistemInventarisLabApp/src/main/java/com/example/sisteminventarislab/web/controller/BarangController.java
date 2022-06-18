@@ -69,8 +69,7 @@ public class BarangController {
 
   @ApiOperation("get list Barang (size 4)")
   @GetMapping
-  public Response<List<Barang>> getBarangListPaged(@RequestParam @Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
-      message = "Page tidak boleh bernilai < 1!") Integer page) {
+  public Response<List<Barang>> getBarangListPaged(@RequestParam Integer page) {
     return ResponseHelper.ok(barangService.getAllBarangPaged(page));
   }
 

@@ -54,6 +54,8 @@ public class BarangServiceImpl implements BarangService {
 
   @Override
   public List<Barang> getAllBarangPaged(int page) {
+    if (page <= 0)
+      throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
     List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page);
     if (ObjectUtils.isEmpty(listBarang))
       throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
