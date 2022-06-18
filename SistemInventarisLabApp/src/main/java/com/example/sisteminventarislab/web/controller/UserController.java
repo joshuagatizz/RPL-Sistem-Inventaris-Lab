@@ -4,11 +4,11 @@ import com.example.sisteminventarislab.entity.Response;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.entity.helper.ResponseHelper;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateUserWebRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class UserController {
    */
   @ApiOperation("create new User")
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Response<User> createUser(@RequestBody @Valid CreateUpdateUserWebRequest request) {
+  public Response<User> createUser(@RequestBody @Valid CreateUserWebRequest request) {
     return ResponseHelper.ok(userService.createUser(request));
   }
 
@@ -81,7 +81,7 @@ public class UserController {
    */
   @ApiOperation("update User by id")
   @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Response<User> updateUser(@PathVariable String id, @RequestBody @Valid CreateUpdateUserWebRequest request) {
+  public Response<User> updateUser(@PathVariable String id, @RequestBody @Valid UpdateUserWebRequest request) {
     return ResponseHelper.ok(userService.updateUser(id, request));
   }
 
