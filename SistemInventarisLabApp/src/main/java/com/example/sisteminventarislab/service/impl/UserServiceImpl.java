@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> getUsersPaged(int page) {
+    if (page <= 0)
+      throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
     List<User> listUser = userRepositoryCustom.getUserPaged(page);
     if (ObjectUtils.isEmpty(listUser))
       throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
