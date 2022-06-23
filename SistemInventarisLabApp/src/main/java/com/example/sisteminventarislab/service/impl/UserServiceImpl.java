@@ -8,10 +8,10 @@ import com.example.sisteminventarislab.repository.UserRepository;
 import com.example.sisteminventarislab.repository.UserRepositoryCustom;
 import com.example.sisteminventarislab.service.AccessTokenService;
 import com.example.sisteminventarislab.service.UserService;
-import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.CreateUserWebRequest;
+import com.example.sisteminventarislab.web.model.Request.UpdateUserWebRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -27,10 +27,17 @@ public class UserServiceImpl implements UserService {
   private final AccessTokenService accessTokenService;
 
   @Override
-  public User createUser(CreateUpdateUserWebRequest request) {
+  public User createUser(CreateUserWebRequest request) {
+    if (nimIsTaken(request.getNim()))
+      throw new CustomException(ErrorCode.USER_NIM_ALREADY_EXISTS);
     User user = User.builder().build();
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
+  }
+
+  private boolean nimIsTaken(String nim) {
+    User user = userRepository.getUserByNimEquals(nim);
+    return !ObjectUtils.isEmpty(user);
   }
 
   /**
@@ -47,6 +54,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> getUsersPaged(int page) {
+    if (page <= 0)
+      throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
     List<User> listUser = userRepositoryCustom.getUserPaged(page);
     if (ObjectUtils.isEmpty(listUser))
       throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
@@ -62,8 +71,10 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User updateUser(String id, CreateUpdateUserWebRequest request) {
-    User user = userRepository.findById(id).get();
+  public User updateUser(String id, UpdateUserWebRequest request) {
+    User user = userRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(user))
+      throw new CustomException(ErrorCode.USER_NOT_FOUND);
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
   }

@@ -1,5 +1,7 @@
 package com.example.sisteminventarislab;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +15,16 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 @WebAppConfiguration
 @TestPropertySource({"/application-test.properties"})
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class SistemInventarisLabApplicationTests {
   @Autowired
   protected WebApplicationContext webApplicationContext;
 
+  protected static String asJsonString(final Object obj) {
+    try {
+      return new ObjectMapper().writeValueAsString(obj);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

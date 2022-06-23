@@ -54,6 +54,8 @@ public class BarangServiceImpl implements BarangService {
 
   @Override
   public List<Barang> getAllBarangPaged(int page) {
+    if (page <= 0)
+      throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
     List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page);
     if (ObjectUtils.isEmpty(listBarang))
       throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
@@ -97,7 +99,9 @@ public class BarangServiceImpl implements BarangService {
    */
   @Override
   public Barang updateBarang(String id, UpdateBarangWebRequest request) {
-    Barang barang = barangRepository.findById(id).get();
+    Barang barang = barangRepository.findById(id).orElse(null);
+    if (ObjectUtils.isEmpty(barang))
+      throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
     BeanUtils.copyProperties(request, barang);
     return barangRepository.save(barang);
   }
