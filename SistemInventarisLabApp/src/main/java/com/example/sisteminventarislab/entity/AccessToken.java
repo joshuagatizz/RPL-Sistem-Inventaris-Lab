@@ -15,4 +15,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AccessToken {
   @Id
   String token;
+  int access;
+  User user;
+
+  @Data
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class User {
+    String email;
+    String nama;
+    String password;
+    String tipeUser;
+  }
 }

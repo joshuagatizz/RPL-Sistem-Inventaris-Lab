@@ -1,10 +1,12 @@
 package com.example.sisteminventarislab.service.impl;
 
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.exception.CustomException;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
 import com.example.sisteminventarislab.repository.UserRepositoryCustom;
+import com.example.sisteminventarislab.service.AccessTokenService;
 import com.example.sisteminventarislab.service.UserService;
 import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final UserRepositoryCustom userRepositoryCustom;
+  private final AccessTokenService accessTokenService;
 
   @Override
   public User createUser(CreateUpdateUserWebRequest request) {
@@ -82,5 +85,18 @@ public class UserServiceImpl implements UserService {
     }
     userRepository.deleteById(id);
     return true;
+  }
+
+  @Override
+  public AccessToken login(String email, String password) {
+    User user = userRepository.findByEmail(email);
+    if (ObjectUtils.isEmpty(user) || !user.getPassword().equals(password))
+      throw new CustomException(ErrorCode.WRONG_EMAIL_PASSWORD);
+    return accessTokenService.createToken((user.getTipeUser().equals("ADMIN") ? 1 : 0), user);
+  }
+
+  @Override
+  public void logout(String token) {
+    accessTokenService.deleteToken(token);
   }
 }

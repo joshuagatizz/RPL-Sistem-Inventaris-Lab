@@ -1,5 +1,6 @@
 package com.example.sisteminventarislab.web.controller;
 
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.Response;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.entity.helper.ResponseHelper;
@@ -8,9 +9,17 @@ import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequ
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -21,6 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@CrossOrigin
 public class UserController {
 
   private final UserService userService;
@@ -100,5 +110,18 @@ public class UserController {
   @DeleteMapping(path = "/{id}")
   public Response<Boolean> deleteUser(@PathVariable String id) {
     return ResponseHelper.ok(userService.deleteUser(id));
+  }
+
+  @ApiOperation("login")
+  @PostMapping("/login")
+  public Response<AccessToken> userLogin(@RequestParam @Valid @NotEmpty String email, @RequestParam @Valid @NotEmpty String password) {
+    return ResponseHelper.ok(userService.login(email, password));
+  }
+
+  @ApiOperation("logout")
+  @PostMapping("/logout")
+  public Response<Boolean> userLogout(@RequestParam @Valid @NotEmpty String token) {
+    userService.logout(token);
+    return ResponseHelper.ok(Boolean.TRUE);
   }
 }

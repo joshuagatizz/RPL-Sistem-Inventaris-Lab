@@ -1,5 +1,6 @@
 package com.example.sisteminventarislab.service;
 
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.web.model.Request.CreateUpdateUserWebRequest;
 
@@ -12,4 +13,6 @@ public interface UserService {
   User getUserById(String id);
   User updateUser(String id, CreateUpdateUserWebRequest request);
   boolean deleteUser(String id);
+  AccessToken login(String email, String password);
+  void logout(String token);
 }

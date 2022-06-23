@@ -3,14 +3,18 @@ package com.example.sisteminventarislab.web.controller;
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.entity.Response;
 import com.example.sisteminventarislab.entity.helper.ResponseHelper;
+import com.example.sisteminventarislab.exception.CustomException;
+import com.example.sisteminventarislab.exception.ErrorCode;
+import com.example.sisteminventarislab.service.AccessTokenService;
 import com.example.sisteminventarislab.service.BarangService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,10 +22,11 @@ import java.util.List;
 @Api
 @RestController
 @RequestMapping(path = "/api/laporan", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class LaporanController {
 
-  @Autowired
-  BarangService barangService;
+  private final BarangService barangService;
+  private final AccessTokenService accessTokenService;
 
   /**
    * fungsi untuk mendapatkan List Barang berdasarkan suatu id User.
@@ -34,7 +39,10 @@ public class LaporanController {
    */
   @ApiOperation("get Barang by User Id")
   @GetMapping(path = "/{id}")
-  public Response<List<Barang>> getLaporanByUserId(@PathVariable String id) {
+  public Response<List<Barang>> getLaporanByUserId(@PathVariable String id, @RequestParam String token) {
+    if (!accessTokenService.doExist(token))
+      throw new CustomException(ErrorCode.UNAUTHORIZED);
+
     return ResponseHelper.ok(barangService.getBarangByUserId(id));
   }
 }

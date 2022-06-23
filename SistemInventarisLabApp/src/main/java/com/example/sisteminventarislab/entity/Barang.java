@@ -19,4 +19,6 @@ public class Barang {
   String urlFoto;
   String nama;
   String deskripsi;
+  String tanggalPinjam;
+  String tanggalBalikin;
 }
