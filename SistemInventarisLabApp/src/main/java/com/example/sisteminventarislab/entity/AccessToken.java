@@ -23,6 +23,7 @@ public class AccessToken {
   @NoArgsConstructor
   @AllArgsConstructor
   public static class User {
+    String id;
     String email;
     String nama;
     String password;

@@ -8,13 +8,13 @@ import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.service.AccessTokenService;
 import com.example.sisteminventarislab.service.BarangService;
 import com.example.sisteminventarislab.web.model.Request.CreateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Request.PinjamBarangWebRequest;
 import com.example.sisteminventarislab.web.model.Request.UpdateBarangWebRequest;
 import com.example.sisteminventarislab.web.model.Response.CreateBarangWebResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +30,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Api
 @RestController
-@RequestMapping(path = "/api/barang",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/barang")
 @RequiredArgsConstructor
 @CrossOrigin
 public class BarangController {
@@ -52,8 +50,8 @@ public class BarangController {
    * @return response barang berhasil ditambah
    */
   @ApiOperation("create new Barang")
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Response<CreateBarangWebResponse> createBarang(@RequestBody @Valid CreateBarangWebRequest request,
+  @PostMapping
+  public Response<CreateBarangWebResponse> createBarang(@RequestBody CreateBarangWebRequest request,
       @RequestParam String token) {
     if (!accessTokenService.doExist(token))
       throw new CustomException(ErrorCode.UNAUTHORIZED);
@@ -83,12 +81,20 @@ public class BarangController {
   @ApiOperation("get list Barang (size 4)")
   @GetMapping
   public Response<List<Barang>> getBarangListPaged(@RequestParam @Valid @NotEmpty(message = "Page tidak boleh kosong!") @Min(value = 1,
-      message = "Page tidak boleh bernilai < 1!") Integer page) {
-    return ResponseHelper.ok(barangService.getAllBarangPaged(page)
-        .stream()
-        .filter(barang -> ObjectUtils.isEmpty(barang.getIdPeminjam()))
-        .collect(
-            Collectors.toList()));
+      message = "Page tidak boleh bernilai < 1!") Integer page, boolean filterPinjam) {
+    return ResponseHelper.ok(barangService.getAllBarangPaged(page, filterPinjam));
+  }
+
+  @ApiOperation("get list Barang that is borrowed by user with idPeminjam")
+  @GetMapping("/{idPeminjam}/pinjam")
+  public Response<List<Barang>> getBarangDipinjam(@RequestParam int page, @PathVariable("idPeminjam") String idPeminjam) {
+    return ResponseHelper.ok(barangService.getBarangByUserId(page, idPeminjam));
+  }
+
+  @ApiOperation("get list Barang that is borrowed by user with idPeminjam")
+  @PostMapping("/{idPeminjam}/pinjam")
+  public Response<Barang> getBarangDipinjam(@RequestBody @Valid PinjamBarangWebRequest request) {
+    return ResponseHelper.ok(barangService.pinjamBarang(request));
   }
 
   /**
@@ -114,6 +120,16 @@ public class BarangController {
       throw new CustomException(ErrorCode.UNAUTHORIZED);
 
     return ResponseHelper.ok(barangService.updateBarang(id, request));
+  }
+
+  @ApiOperation("Pinjam barang by id")
+  @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH})
+  public Response<Barang> pinjamBarang(@RequestParam String idBarang,
+      @RequestParam String idPeminjam, @RequestParam String token) {
+    if (!accessTokenService.doExist(token))
+      throw new CustomException(ErrorCode.UNAUTHORIZED);
+
+    return ResponseHelper.ok(barangService.pinjamBarang(idBarang, idPeminjam));
   }
 
   /**

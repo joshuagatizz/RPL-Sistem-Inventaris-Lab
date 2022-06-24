@@ -20,5 +20,7 @@ public class Barang {
   String nama;
   String deskripsi;
   String tanggalPinjam;
-  String tanggalBalikin;
+  String deadlineBalik;
+  String tanggalBalik;
+  boolean sudahBalik;
 }

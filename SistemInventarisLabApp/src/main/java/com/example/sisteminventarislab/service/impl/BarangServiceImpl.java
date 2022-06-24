@@ -7,6 +7,7 @@ import com.example.sisteminventarislab.repository.BarangRepository;
 import com.example.sisteminventarislab.repository.BarangRepositoryCustom;
 import com.example.sisteminventarislab.service.BarangService;
 import com.example.sisteminventarislab.web.model.Request.CreateBarangWebRequest;
+import com.example.sisteminventarislab.web.model.Request.PinjamBarangWebRequest;
 import com.example.sisteminventarislab.web.model.Request.UpdateBarangWebRequest;
 import com.example.sisteminventarislab.web.model.Response.CreateBarangWebResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -53,10 +58,10 @@ public class BarangServiceImpl implements BarangService {
   }
 
   @Override
-  public List<Barang> getAllBarangPaged(int page) {
+  public List<Barang> getAllBarangPaged(int page, boolean filterPinjam) {
     if (page <= 0)
       throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
-    List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page);
+    List<Barang> listBarang = barangRepositoryCustom.getBarangPaged(page, filterPinjam);
     if (ObjectUtils.isEmpty(listBarang))
       throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
     return listBarang;
@@ -79,8 +84,22 @@ public class BarangServiceImpl implements BarangService {
    * @return List<Barang>, yaitu List barang berdasarkan Id Peminjam
    */
   @Override
-  public List<Barang> getBarangByUserId(String id) {
-    return barangRepository.findBarangsByIdPeminjam(id);
+  public List<Barang> getBarangByUserId(int page, String id) {
+    if (page <= 0)
+      throw new CustomException(ErrorCode.INVALID_PAGE_INPUT);
+    List<Barang> listBarang = barangRepositoryCustom.findBarangsByIdPeminjam(page, id);
+    if (ObjectUtils.isEmpty(listBarang))
+      throw new CustomException(ErrorCode.PAGE_LIMIT_EXCEEDED);
+    return listBarang;
+  }
+
+  @Override
+  public Barang pinjamBarang(PinjamBarangWebRequest request) {
+    Barang barang = barangRepository.findById(request.getIdBarang()).orElse(null);
+    if (ObjectUtils.isEmpty(barang))
+      throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
+    barang.setIdPeminjam(request.getIdPeminjam());
+    return barangRepository.save(barang);
   }
 
   /**
@@ -103,6 +122,22 @@ public class BarangServiceImpl implements BarangService {
     if (ObjectUtils.isEmpty(barang))
       throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
     BeanUtils.copyProperties(request, barang);
+    return barangRepository.save(barang);
+  }
+
+  @Override
+  public Barang pinjamBarang(String idBarang, String idPeminjam) {
+    Barang barang = barangRepository.findById(idBarang).orElse(null);
+    if (ObjectUtils.isEmpty(barang))
+      throw new CustomException(ErrorCode.BARANG_NOT_FOUND);
+    barang.setIdPeminjam(idPeminjam);
+    String pattern = "yyyy/MM/dd";
+    DateFormat df = new SimpleDateFormat(pattern);
+    Date today = new Date();
+    String todayAsString = df.format(today);
+    barang.setTanggalPinjam(todayAsString);
+    Date oneWeek = new Date(System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS));
+    barang.setDeadlineBalik(df.format(oneWeek));
     return barangRepository.save(barang);
   }
 
