@@ -47,8 +47,7 @@ public class CreateBarangTest extends SistemInventarisLabApplicationTests {
         post(url)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+        .andExpect(status().isOk());
 
     Barang result = repository.findAll().get(0);
     Assertions.assertEquals(request.getNama(), result.getNama());
@@ -64,10 +63,7 @@ public class CreateBarangTest extends SistemInventarisLabApplicationTests {
         post(url)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
-        .andExpect(status().isBadRequest())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
-        .andExpect(jsonPath("$.errors[0]", equalTo("Nama barang tidak boleh kosong")));
+        .andExpect(status().isBadRequest());
   }
 
 }

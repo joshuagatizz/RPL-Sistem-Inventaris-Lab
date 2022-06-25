@@ -47,8 +47,7 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
         put(url + "/" + savedData.getId())
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+        .andExpect(status().isOk());
 
     User result = repository.findAll().get(0);
     Assertions.assertEquals(updateData.getNama(), result.getNama());
@@ -64,7 +63,6 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isNotFound())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.USER_NOT_FOUND.getMessage())));
   }
@@ -78,7 +76,6 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isBadRequest())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo("Nama tidak boleh kosong")));
   }

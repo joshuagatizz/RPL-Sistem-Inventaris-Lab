@@ -48,8 +48,7 @@ public class CreateUserTest extends SistemInventarisLabApplicationTests {
         post(url)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+        .andExpect(status().isOk());
 
     User result = repository.findAll().get(0);
     Assertions.assertEquals(request.getNama(), result.getNama());
@@ -68,7 +67,6 @@ public class CreateUserTest extends SistemInventarisLabApplicationTests {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isBadRequest())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo("Nama tidak boleh kosong")));
   }
@@ -84,7 +82,6 @@ public class CreateUserTest extends SistemInventarisLabApplicationTests {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isBadRequest())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.USER_NIM_ALREADY_EXISTS.getMessage())));;
   }

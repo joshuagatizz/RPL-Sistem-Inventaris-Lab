@@ -43,7 +43,6 @@ public class DeleteBarangTest extends SistemInventarisLabApplicationTests {
     mockMvc.perform(
         delete(url + "/" + savedData.getId()))
         .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.data", equalTo(Boolean.TRUE)));
   }
 
@@ -52,7 +51,6 @@ public class DeleteBarangTest extends SistemInventarisLabApplicationTests {
     mockMvc.perform(
         delete(url + "/" + "randomid"))
         .andExpect(status().isNotFound())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.BARANG_NOT_FOUND.getMessage())));
   }
