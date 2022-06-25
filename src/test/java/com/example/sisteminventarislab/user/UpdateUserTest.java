@@ -1,6 +1,7 @@
 package com.example.sisteminventarislab.user;
 
 import com.example.sisteminventarislab.SistemInventarisLabApplicationTests;
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
@@ -31,20 +32,24 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
   @BeforeEach
   public void setUp() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    this.savedData = User.builder().nama("bambang1").nim("1301190001").tipeUser("tipe1").password("pass1").email("testemail1@gmail.com").build();
-    this.updateData = UpdateUserWebRequest.builder().nama("bambang2").tipeUser("tipe2").password("pass2").email("testemail2@gmail.com").build();
+    this.savedData = User.builder().nama("bambang1").nim("1301190001").tipeUser("tipe1").imgUrl("url1").password("pass1").email("testemail1@gmail.com").build();
+    this.updateData = UpdateUserWebRequest.builder().nama("bambang2").tipeUser("tipe2").imgUrl("url2").password("pass2").email("testemail2@gmail.com").build();
     repository.save(savedData);
+    AccessToken token = AccessToken.builder().token(TEST_ACCESS_TOKEN).access(1).build();
+    accessTokenRepository.save(token);
   }
 
   @AfterEach
   public void tearDown() {
     repository.deleteAll();
+    accessTokenRepository.deleteAll();
   }
 
   @Test
   public void updateUser_success() throws Exception {
     mockMvc.perform(
         put(url + "/" + savedData.getId())
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isOk());
@@ -54,17 +59,18 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
     Assertions.assertEquals(updateData.getEmail(), result.getEmail());
     Assertions.assertEquals(updateData.getPassword(), result.getPassword());
     Assertions.assertEquals(updateData.getTipeUser(), result.getTipeUser());
+    Assertions.assertEquals(updateData.getImgUrl(), result.getImgUrl());
   }
 
   @Test
   public void updateUser_failed_dataNotFound() throws Exception {
     mockMvc.perform(
         put(url + "/" + "randomid")
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
-        .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.USER_NOT_FOUND.getMessage())));
+        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)));
   }
 
   @Test
@@ -73,10 +79,10 @@ public class UpdateUserTest extends SistemInventarisLabApplicationTests {
 
     mockMvc.perform(
         put(url + "/" + "randomid")
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
-        .andExpect(jsonPath("$.errors[0]", equalTo("Nama tidak boleh kosong")));
+        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)));
   }
 }

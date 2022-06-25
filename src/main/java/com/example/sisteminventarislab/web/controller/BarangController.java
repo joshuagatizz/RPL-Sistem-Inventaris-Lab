@@ -51,7 +51,7 @@ public class BarangController {
    */
   @ApiOperation("create new Barang")
   @PostMapping
-  public Response<CreateBarangWebResponse> createBarang(@RequestBody CreateBarangWebRequest request,
+  public Response<CreateBarangWebResponse> createBarang(@RequestBody @Valid CreateBarangWebRequest request,
       @RequestParam String token) {
     if (!accessTokenService.doExist(token))
       throw new CustomException(ErrorCode.UNAUTHORIZED);

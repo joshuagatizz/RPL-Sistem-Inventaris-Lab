@@ -1,6 +1,7 @@
 package com.example.sisteminventarislab.barang;
 
 import com.example.sisteminventarislab.SistemInventarisLabApplicationTests;
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.exception.ErrorCode;
@@ -38,17 +39,21 @@ public class UpdateBarangTest extends SistemInventarisLabApplicationTests {
     this.savedData = Barang.builder().nama("barang1").deskripsi("deskripsi1").urlFoto("url1").build();
     this.updateData = UpdateBarangWebRequest.builder().nama("barang2").deskripsi("deskripsi2").urlFoto("url2").idPeminjam("Bambank").build();
     repository.save(savedData);
+    AccessToken token = AccessToken.builder().token(TEST_ACCESS_TOKEN).access(1).build();
+    accessTokenRepository.save(token);
   }
 
   @AfterEach
   public void tearDown() {
     repository.deleteAll();
+    accessTokenRepository.deleteAll();
   }
 
   @Test
   public void updateBarang_success() throws Exception {
     mockMvc.perform(
         put(url + "/" + savedData.getId())
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isOk());
@@ -64,6 +69,7 @@ public class UpdateBarangTest extends SistemInventarisLabApplicationTests {
   public void updateBarang_failed_dataNotFound() throws Exception {
     mockMvc.perform(
         put(url + "/" + "randomid")
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(updateData)))
         .andExpect(status().isNotFound())

@@ -1,6 +1,7 @@
 package com.example.sisteminventarislab.barang;
 
 import com.example.sisteminventarislab.SistemInventarisLabApplicationTests;
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.repository.BarangRepository;
 import com.example.sisteminventarislab.web.model.Request.CreateBarangWebRequest;
@@ -34,17 +35,21 @@ public class CreateBarangTest extends SistemInventarisLabApplicationTests {
         .deskripsi("deskripsi")
         .urlFoto("url")
         .build();
+    AccessToken token = AccessToken.builder().token(TEST_ACCESS_TOKEN).access(1).build();
+    accessTokenRepository.save(token);
   }
 
   @AfterEach
   public void tearDown() {
     repository.deleteAll();
+    accessTokenRepository.deleteAll();
   }
 
   @Test
   public void createBarang_success() throws Exception {
     mockMvc.perform(
         post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isOk());
@@ -58,9 +63,11 @@ public class CreateBarangTest extends SistemInventarisLabApplicationTests {
   @Test
   public void createBarang_failed_nameIsEmpty() throws Exception {
     request.setNama("");
+    System.out.println(request);
 
     mockMvc.perform(
         post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isBadRequest());

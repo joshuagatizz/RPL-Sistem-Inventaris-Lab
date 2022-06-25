@@ -1,6 +1,7 @@
 package com.example.sisteminventarislab.user;
 
 import com.example.sisteminventarislab.SistemInventarisLabApplicationTests;
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.User;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.UserRepository;
@@ -33,19 +34,24 @@ public class CreateUserTest extends SistemInventarisLabApplicationTests {
         .nim("1301190001")
         .tipeUser("tipe1")
         .password("pass1")
+        .imgUrl("url1")
         .email("testemail1@gmail.com")
         .build();
+    AccessToken token = AccessToken.builder().token(TEST_ACCESS_TOKEN).access(1).build();
+    accessTokenRepository.save(token);
   }
 
   @AfterEach
   public void tearDown() {
     repository.deleteAll();
+    accessTokenRepository.deleteAll();
   }
 
   @Test
   public void createUser_success() throws Exception {
     mockMvc.perform(
         post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isOk());
@@ -64,25 +70,26 @@ public class CreateUserTest extends SistemInventarisLabApplicationTests {
 
     mockMvc.perform(
         post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
-        .andExpect(jsonPath("$.errors[0]", equalTo("Nama tidak boleh kosong")));
+        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)));
   }
 
   @Test
   public void createUser_failed_duplicateNim() throws Exception {
     mockMvc.perform(post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)));
 
     mockMvc.perform(
         post(url)
+            .param("token", TEST_ACCESS_TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(request)))
         .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
-        .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.USER_NIM_ALREADY_EXISTS.getMessage())));;
+        .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)));
   }
 }

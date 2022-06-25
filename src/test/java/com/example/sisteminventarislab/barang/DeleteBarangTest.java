@@ -1,6 +1,7 @@
 package com.example.sisteminventarislab.barang;
 
 import com.example.sisteminventarislab.SistemInventarisLabApplicationTests;
+import com.example.sisteminventarislab.entity.AccessToken;
 import com.example.sisteminventarislab.entity.Barang;
 import com.example.sisteminventarislab.exception.ErrorCode;
 import com.example.sisteminventarislab.repository.BarangRepository;
@@ -31,17 +32,21 @@ public class DeleteBarangTest extends SistemInventarisLabApplicationTests {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     this.savedData = Barang.builder().nama("barang1").deskripsi("deskripsi1").urlFoto("url1").build();
     repository.save(savedData);
+    AccessToken token = AccessToken.builder().token(TEST_ACCESS_TOKEN).access(1).build();
+    accessTokenRepository.save(token);
   }
 
   @AfterAll
   public void tearDown() {
     repository.deleteAll();
+    accessTokenRepository.deleteAll();
   }
 
   @Test
   public void deleteBarang_success() throws Exception {
     mockMvc.perform(
-        delete(url + "/" + savedData.getId()))
+        delete(url + "/" + savedData.getId())
+            .param("token", TEST_ACCESS_TOKEN))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data", equalTo(Boolean.TRUE)));
   }
@@ -49,7 +54,8 @@ public class DeleteBarangTest extends SistemInventarisLabApplicationTests {
   @Test
   public void deleteBarang_failed_barangNotFound() throws Exception {
     mockMvc.perform(
-        delete(url + "/" + "randomid"))
+        delete(url + "/" + "randomid")
+            .param("token", TEST_ACCESS_TOKEN))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$.errors", IsCollectionWithSize.hasSize(1)))
         .andExpect(jsonPath("$.errors[0]", equalTo(ErrorCode.BARANG_NOT_FOUND.getMessage())));
