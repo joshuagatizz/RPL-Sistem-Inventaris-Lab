@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserWebRequest {
+public class  CreateUserWebRequest {
   @NotEmpty(message = "E-mail tidak boleh kosong")
   String email;
 
@@ -26,4 +26,7 @@ public class CreateUserWebRequest {
 
   @NotEmpty(message = "Tipe user tidak boleh kosong")
   String tipeUser;
+
+  @NotEmpty
+  String imgUrl;
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccessTokenRepository extends MongoRepository<AccessToken, String> {
-  AccessToken findByUser_Email(String email);
+  AccessToken findByUser_Id(String user_Id);
 }

@@ -20,4 +20,5 @@ public class User {
   String nim;
   String password;
   String tipeUser;
+  String imgUrl;
 }

@@ -20,7 +20,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
   @Override
   public AccessToken createToken(int access, User user) {
 
-    AccessToken accessToken = accessTokenRepository.findByUser_Email(user.getEmail());
+    AccessToken accessToken = accessTokenRepository.findByUser_Id(user.getId());
 
     if (!ObjectUtils.isEmpty(accessToken))
       return accessToken;
@@ -46,5 +46,13 @@ public class AccessTokenServiceImpl implements AccessTokenService {
   @Override
   public boolean doExist(String token) {
     return accessTokenRepository.findById(token).isPresent();
+  }
+
+  @Override
+  public boolean deleteTokenByUserId(String id) {
+    AccessToken accessToken = accessTokenRepository.findByUser_Id(id);
+    if (!ObjectUtils.isEmpty(accessToken))
+      accessTokenRepository.delete(accessToken);
+    return true;
   }
 }

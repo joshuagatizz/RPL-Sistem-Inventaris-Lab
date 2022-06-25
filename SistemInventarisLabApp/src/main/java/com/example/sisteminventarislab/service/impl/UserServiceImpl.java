@@ -72,9 +72,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User updateUser(String id, UpdateUserWebRequest request) {
-    User user = userRepository.findById(id).orElse(null);
-    if (ObjectUtils.isEmpty(user))
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    accessTokenService.deleteTokenByUserId(user.getId());
     BeanUtils.copyProperties(request, user);
     return userRepository.save(user);
   }
@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
   /**
    * Method deleteUser pada class controller UserController ini menerima id
    * dari data user yang akan dihapus
-   *
    * Method ini menggunakan repository UserRepository untuk menghapus user
    * dengan input parameter id user
    *
@@ -91,9 +90,9 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public boolean deleteUser(String id) {
-    if (ObjectUtils.isEmpty(userRepository.findById(id))) {
-      throw new CustomException(ErrorCode.USER_NOT_FOUND);
-    }
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    accessTokenService.deleteTokenByUserId(user.getEmail());
     userRepository.deleteById(id);
     return true;
   }
@@ -103,7 +102,8 @@ public class UserServiceImpl implements UserService {
     User user = userRepository.findByEmail(email);
     if (ObjectUtils.isEmpty(user) || !user.getPassword().equals(password))
       throw new CustomException(ErrorCode.WRONG_EMAIL_PASSWORD);
-    return accessTokenService.createToken((user.getTipeUser().equals("ADMIN") ? 1 : 0), user);
+    return accessTokenService.createToken((user.getTipeUser()
+        .equalsIgnoreCase("Aslab") ? 1 : 0), user);
   }
 
   @Override

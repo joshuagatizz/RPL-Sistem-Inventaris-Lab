@@ -23,4 +23,7 @@ public class UpdateUserWebRequest {
 
   @NotEmpty(message = "Tipe user tidak boleh kosong")
   String tipeUser;
+
+  @NotEmpty
+  String imgUrl;
 }

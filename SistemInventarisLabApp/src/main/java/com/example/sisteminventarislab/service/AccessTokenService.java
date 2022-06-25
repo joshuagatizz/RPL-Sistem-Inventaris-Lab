@@ -8,4 +8,5 @@ public interface AccessTokenService {
   AccessToken getToken(String token);
   boolean deleteToken(String token);
   boolean doExist(String token);
+  boolean deleteTokenByUserId(String id);
 }
